@@ -40,7 +40,7 @@ jobs:
         run: |
           chmod +x check-version.sh build.sh 
           sudo git fetch --tags && ./check-version.sh && ./build.sh
-          sudo git push --tags https://gsdukbh:{{secrets.MY_GIT_TOKEN}}@github.com/gsdukbh/docker-gitlab-ee-arm64.git
+          sudo git push --tags https://{{secrets.DOCKER_NAME}}:{{secrets.MY_GIT_TOKEN}}@github.com/{{secrets.DOCKER_NAME}}/docker-gitlab-ee-arm64.git
       - name: Push changes
         uses: ad-m/github-push-action@master
         with:
