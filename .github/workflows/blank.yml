@@ -38,6 +38,9 @@ jobs:
           MAIL: ${{ secrets.MAIL }}
           MY_NAME: ${{ secrets.MY_NAME}}
         run: |
+          sudo git config --local user.email ${MAIL}
+          sudo git config --local user.name ${MY_NAME}
+          sudo git commit -a -m "build version ${LATEST}"
           chmod +x check-version.sh build.sh 
           sudo git fetch --tags && ./check-version.sh && ./build.sh
           sudo git push --tags https://taesuz:{{secrets.MY_GIT_TOKEN}}@github.com/taesuz/docker-gitlab-ee-arm64.git
