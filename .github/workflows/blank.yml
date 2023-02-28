@@ -29,6 +29,8 @@ jobs:
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v3
+        with:
+          token: ${{ secrets.MY_GIT_TOKEN }}
 
       # Runs a set of commands using the runners shell
       - name: Run a multi-line script
@@ -40,7 +42,8 @@ jobs:
         run: |
           chmod +x check-version.sh build.sh 
           sudo git fetch --tags && ./check-version.sh && ./build.sh
-          sudo git push --tags https://taesuz:{{secrets.MY_GIT_TOKEN}}@github.com/taesuz/docker-gitlab-ee-arm64.git
+          # sudo git push --tags https://taesuz:{{secrets.MY_GIT_TOKEN}}@github.com/taesuz/docker-gitlab-ee-arm64.git
+          sudo git push --tags
       - name: Push changes
         uses: ad-m/github-push-action@master
         with:
