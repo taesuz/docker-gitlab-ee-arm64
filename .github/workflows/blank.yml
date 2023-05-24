@@ -5,7 +5,7 @@ name: check-tags
 # Controls when the workflow will run
 on:
   schedule:
-      - cron: '0 6 * * *'
+      - cron: '0 0 */7 * *'
   # Triggers the workflow on push or pull request events but only for the main branch
 #   push:
 #     branches: [ main ]
@@ -23,7 +23,7 @@ jobs:
   build:
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
-    environment: gitlab-env
+    environment: token
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
@@ -38,9 +38,6 @@ jobs:
           MAIL: ${{ secrets.MAIL }}
           MY_NAME: ${{ secrets.MY_NAME}}
         run: |
-          sudo git config --local user.email ${MAIL}
-          sudo git config --local user.name ${MY_NAME}
-          sudo git commit -a -m "build version ${LATEST}"
           chmod +x check-version.sh build.sh 
           sudo git fetch --tags && ./check-version.sh && ./build.sh
           sudo git push --tags https://taesuz:{{secrets.MY_GIT_TOKEN}}@github.com/taesuz/docker-gitlab-ee-arm64.git
@@ -49,5 +46,3 @@ jobs:
         with:
           github_token: ${{ secrets.MY_GIT_TOKEN }}
           branch: main
-
-          
